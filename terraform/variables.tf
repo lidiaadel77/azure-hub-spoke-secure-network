@@ -9,3 +9,15 @@ variable "project_name" {
   type        = string
   default     = "hub-spoke-secure-network"
 }
+
+variable "admin_username" {
+  description = "Admin username for the private Linux VM."
+  type        = string
+  default     = "azureuser"
+}
+
+variable "ssh_public_key_path" {
+  description = "Path to the local SSH public key used for the Linux VM."
+  type        = string
+  default     = "~/.ssh/id_rsa.pub"
+}

@@ -86,3 +86,40 @@ Next phase:
 - Add private VM with no public IP
 - Add Network Security Group rules
 - Prepare secure access through Azure Bastion
+
+## 8. Phase 2 - Private VM and NSG
+
+Terraform added a private Linux virtual machine inside the spoke workload subnet.
+
+Created resources:
+
+- Private Linux VM
+- Network interface
+- Network Security Group
+- NSG association
+
+VM name:
+
+`vm-private-spoke-zh6w4`
+
+Private IP address:
+
+`10.1.1.4`
+
+NSG name:
+
+`nsg-spoke-vm-zh6w4`
+
+The VM was created without a public IP address. This means it is not directly reachable from the internet.
+
+The NSG allows SSH only from the hub network range:
+
+`10.0.0.0/16`
+
+All other inbound traffic is denied.
+
+This demonstrates a secure workload design where virtual machines stay private and access is controlled through network rules.
+
+Next phase:
+
+- Add Azure Bastion for secure browser-based SSH access

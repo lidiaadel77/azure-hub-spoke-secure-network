@@ -22,3 +22,18 @@ output "spoke_workload_subnet_name" {
   description = "Name of the spoke workload subnet."
   value       = azurerm_subnet.spoke_workload.name
 }
+
+output "private_vm_name" {
+  description = "Name of the private Linux VM in the spoke subnet."
+  value       = azurerm_linux_virtual_machine.private_vm.name
+}
+
+output "private_vm_private_ip" {
+  description = "Private IP address of the VM."
+  value       = azurerm_network_interface.private_vm.private_ip_address
+}
+
+output "spoke_vm_nsg_name" {
+  description = "Name of the NSG attached to the private VM NIC."
+  value       = azurerm_network_security_group.spoke_vm.name
+}

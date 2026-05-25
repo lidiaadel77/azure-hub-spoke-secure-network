@@ -76,3 +76,81 @@ resource "azurerm_virtual_network_peering" "spoke_to_hub" {
   allow_virtual_network_access = true
   allow_forwarded_traffic      = true
 }
+
+resource "azurerm_network_security_group" "spoke_vm" {
+  name                = "nsg-spoke-vm-${random_string.suffix.result}"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+
+  security_rule {
+    name                       = "AllowSSHFromHub"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "10.0.0.0/16"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "DenyAllInbound"
+    priority                   = 4096
+    direction                  = "Inbound"
+    access                     = "Deny"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+resource "azurerm_network_interface" "private_vm" {
+  name                = "nic-private-vm-${random_string.suffix.result}"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+
+  ip_configuration {
+    name                          = "ipconfig-private"
+    subnet_id                     = azurerm_subnet.spoke_workload.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+
+resource "azurerm_network_interface_security_group_association" "private_vm" {
+  network_interface_id      = azurerm_network_interface.private_vm.id
+  network_security_group_id = azurerm_network_security_group.spoke_vm.id
+}
+
+resource "azurerm_linux_virtual_machine" "private_vm" {
+  name                = "vm-private-spoke-${random_string.suffix.result}"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  size                = "Standard_D2s_v3"
+
+  admin_username                  = var.admin_username
+  disable_password_authentication = true
+
+  network_interface_ids = [
+    azurerm_network_interface.private_vm.id
+  ]
+
+  admin_ssh_key {
+    username   = var.admin_username
+    public_key = file(pathexpand(var.ssh_public_key_path))
+  }
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "ubuntu-24_04-lts"
+    sku       = "server"
+    version   = "latest"
+  }
+}
