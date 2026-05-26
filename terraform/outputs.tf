@@ -52,3 +52,18 @@ output "bastion_subnet_name" {
   description = "Name of the Azure Bastion subnet."
   value       = azurerm_subnet.bastion.name
 }
+
+output "storage_account_name" {
+  description = "Name of the private storage account."
+  value       = azurerm_storage_account.private_storage.name
+}
+
+output "private_endpoint_name" {
+  description = "Name of the storage private endpoint."
+  value       = azurerm_private_endpoint.storage_blob.name
+}
+
+output "private_dns_zone_name" {
+  description = "Name of the private DNS zone for blob storage."
+  value       = azurerm_private_dns_zone.blob.name
+}

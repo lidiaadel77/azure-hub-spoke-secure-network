@@ -163,3 +163,40 @@ Screenshots captured:
 Next phase:
 
 - Add Private Endpoint for Azure Storage
+
+## 10. Phase 4 - Storage Private Endpoint
+
+Terraform added a private Azure Storage access layer.
+
+Created resources:
+
+- Storage Account
+- Private Endpoint for Blob Storage
+- Private DNS Zone
+- Private DNS Zone link to the Spoke VNet
+
+Storage account name:
+
+`sthubspokezh6w4`
+
+Private Endpoint name:
+
+`pe-storage-blob-zh6w4`
+
+Private DNS Zone:
+
+`privatelink.blob.core.windows.net`
+
+The storage account was configured with public network access disabled.
+
+This means the storage account is not designed to be accessed directly from the public internet. Instead, access is routed through the private endpoint inside the spoke workload subnet.
+
+This demonstrates secure private access to Azure platform services through Azure Private Link.
+
+Screenshots captured:
+
+- `private-endpoint-overview.png`
+- `storage-networking-private.png`
+- `private-dns-zone.png`
+
+Phase 4 is complete.
