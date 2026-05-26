@@ -1,4 +1,4 @@
-﻿# Azure Hub-Spoke Secure Network Lab
+# Azure Hub-Spoke Secure Network Lab
 
 ## Overview
 
