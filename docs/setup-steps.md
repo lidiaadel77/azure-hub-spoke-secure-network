@@ -123,3 +123,43 @@ This demonstrates a secure workload design where virtual machines stay private a
 Next phase:
 
 - Add Azure Bastion for secure browser-based SSH access
+
+## 9. Phase 3 - Azure Bastion Access
+
+Terraform added Azure Bastion inside the hub virtual network.
+
+Created resources:
+
+- AzureBastionSubnet
+- Bastion public IP
+- Azure Bastion host
+
+Bastion name:
+
+`bas-hub-zh6w4`
+
+Bastion subnet:
+
+`AzureBastionSubnet`
+
+The private VM was accessed through Azure Bastion from the Azure Portal.
+
+The VM does not have a public IP address.
+
+Successful Bastion SSH test:
+
+- Username: `azureuser`
+- VM hostname: `vm-private-spoke-zh6w4`
+- Private IP: `10.1.1.4`
+
+This proves that the VM can be accessed securely without exposing SSH directly to the public internet.
+
+Screenshots captured:
+
+- `bastion-overview.png`
+- `bastion-vm-connect.png`
+- `bastion-ssh-session.png`
+
+Next phase:
+
+- Add Private Endpoint for Azure Storage

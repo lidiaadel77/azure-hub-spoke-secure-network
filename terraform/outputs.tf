@@ -37,3 +37,18 @@ output "spoke_vm_nsg_name" {
   description = "Name of the NSG attached to the private VM NIC."
   value       = azurerm_network_security_group.spoke_vm.name
 }
+
+output "bastion_name" {
+  description = "Name of the Azure Bastion host."
+  value       = azurerm_bastion_host.main.name
+}
+
+output "bastion_public_ip_name" {
+  description = "Name of the Bastion public IP."
+  value       = azurerm_public_ip.bastion.name
+}
+
+output "bastion_subnet_name" {
+  description = "Name of the Azure Bastion subnet."
+  value       = azurerm_subnet.bastion.name
+}
